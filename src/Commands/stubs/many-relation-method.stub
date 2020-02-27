@@ -1,0 +1,4 @@
+    public function dummyMethodName(...$dummyRelationName): self
+    {
+        return $this->dummyRelationMethod('dummyRelation', empty($dummyRelationName) ? [DummyRelationFactory::new()] : $dummyRelationName);
+    }

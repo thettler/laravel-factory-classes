@@ -1,0 +1,30 @@
+<?php
+
+namespace DummyNamespace;
+
+use Thettler\LaravelFactoryClasses\FactoryClass;
+use DummyFullModelClass;
+
+class DummyFactory extends FactoryClass
+{
+
+    protected string $model = DummyModelClass::class;
+
+    public function create(array $extra = []): DummyModelClass
+    {
+        return $this->createModel($extra);
+    }
+
+    public function make(array $extra = []): DummyModelClass
+    {
+        return $this->makeModel($extra);
+    }
+
+    protected function fakeData(\Faker\Generator $faker): array
+    {
+        return [
+
+        ];
+    }
+<relations>
+}
