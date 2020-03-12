@@ -53,11 +53,10 @@ class FactoryCommandTest extends TestCase
      */
     public function itCreatesFactoryForChosenModel()
     {
-        dd(File::files(__DIR__.'/support/Models'));
         $this->artisan('make:factory-class')
             ->expectsQuestion(
                 'Please pick a model',
-                '<href=file:///Users/tobias/code/packages/laravel-factory-classes/tests/support/Models/SimpleModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\SimpleModel</>'
+                '<href=file://'.__DIR__.'/support/Models/SimpleModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\SimpleModel</>'
             )
             ->assertExitCode(0);
 
@@ -69,7 +68,7 @@ class FactoryCommandTest extends TestCase
     {
         $this->artisan('make:factory-class')
             ->expectsQuestion('Please pick a model',
-                '<href=file:///Users/tobias/code/packages/laravel-factory-classes/tests/support/Models/SimpleModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\SimpleModel</>')
+                '<href=file://'.__DIR__.'/support/Models/SimpleModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\SimpleModel</>')
             ->assertExitCode(0);
 
         $generatedFactoryContent = file_get_contents(__DIR__.'/tmp/SimpleModelFactory.php');
@@ -265,7 +264,7 @@ class FactoryCommandTest extends TestCase
 
         $this->artisan('make:factory-class --recursive')
             ->expectsQuestion('Please pick a model',
-                '<href=file:///Users/tobias/code/packages/laravel-factory-classes/tests/support/Models/BelongsToModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\BelongsToModel</>')
+                '<href=file://'.__DIR__.'/support/Models/BelongsToModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\BelongsToModel</>')
             ->assertExitCode(0);
 
         $generatedFactoryContent = file_get_contents(__DIR__.'/tmp/BelongsToModelFactory.php');
@@ -293,7 +292,7 @@ class FactoryCommandTest extends TestCase
 
         $this->artisan('make:factory-class '.$options)
             ->expectsQuestion('Please pick a model',
-                "<href=file:///Users/tobias/code/packages/laravel-factory-classes/tests/support/Models/{$model}.php>Thettler\LaravelFactoryClasses\Tests\support\Models\\{$model}</>")
+                "<href=file://".__DIR__."/support/Models/{$model}.php>Thettler\LaravelFactoryClasses\Tests\support\Models\\{$model}</>")
             ->assertExitCode(0);
 
         return file_get_contents(__DIR__."/tmp/{$model}Factory.php");
