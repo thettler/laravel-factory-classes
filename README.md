@@ -1,13 +1,11 @@
 <h1 align="center">Welcome to Laravel Factory Classes 👋</h1>
-<p>
-  [![Latest Stable Version](https://poser.pugx.org/pugx/badge-poser/version.svg)](https://packagist.org/packages/thettler/laravel-factory-classes)
-  <a href="https://choosealicense.com/licenses/mit/" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-  <a href="https://twitter.com/TobiSlice" target="_blank">
-    <img alt="Twitter: TobiSlice" src="https://img.shields.io/twitter/follow/TobiSlice.svg?style=social" />
-  </a>
-</p>
+
+[![Latest Stable Version](https://poser.pugx.org/thettler/laravel-factory-classes/v/stable)](https://packagist.org/packages/thettler/laravel-factory-classes)
+[![License](https://poser.pugx.org/thettler/laravel-factory-classes/license)](https://packagist.org/packages/thettler/laravel-factory-classes) 
+[![Total Downloads](https://poser.pugx.org/thettler/laravel-factory-classes/downloads)](https://packagist.org/packages/thettler/laravel-factory-classes)
+<a href="https://twitter.com/TobiSlice" target="_blank">
+  <img alt="Twitter: TobiSlice" src="https://img.shields.io/twitter/follow/TobiSlice.svg?style=social" />
+</a>
 
 Laravel Factory Classes is a package to help you creating Models with data through Factory Classes with a fluent API and automatic auto completion for your tests, seeder or everywhere you might want them.
 
