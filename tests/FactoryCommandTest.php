@@ -292,7 +292,7 @@ class FactoryCommandTest extends TestCase
 
         $this->artisan('make:factory-class '.$options)
             ->expectsQuestion('Please pick a model',
-                "<href=file://".__DIR__."/support/Models/{$model}.php>Thettler\LaravelFactoryClasses\Tests\support\Models\\{$model}</>")
+                '<href=file://'.__DIR__."/support/Models/{$model}.php>Thettler\LaravelFactoryClasses\Tests\support\Models\\{$model}</>")
             ->assertExitCode(0);
 
         return file_get_contents(__DIR__."/tmp/{$model}Factory.php");
