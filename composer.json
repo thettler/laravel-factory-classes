@@ -31,11 +31,14 @@
     "psr-4": {
       "Thettler\\LaravelFactoryClasses\\": "src/"
     }
-  }  ,
+  },
   "autoload-dev": {
     "psr-4": {
       "Thettler\\LaravelFactoryClasses\\Tests\\": "tests/"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   },
   "extra": {
     "laravel": {
