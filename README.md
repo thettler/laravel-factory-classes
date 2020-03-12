@@ -1,8 +1,8 @@
 <h1 align="center">Welcome to Laravel Factory Classes 👋</h1>
 
-[![Latest Stable Version](https://poser.pugx.org/thettler/laravel-factory-classes/v/stable)](https://packagist.org/packages/thettler/laravel-factory-classes)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/thettler/laravel-factory-classes.svg?style=flat-square)](https://packagist.org/packages/thettler/laravel-factory-classes)
 [![License](https://poser.pugx.org/thettler/laravel-factory-classes/license)](https://packagist.org/packages/thettler/laravel-factory-classes) 
-[![Total Downloads](https://poser.pugx.org/thettler/laravel-factory-classes/downloads)](https://packagist.org/packages/thettler/laravel-factory-classes)
+[![Total Downloads](https://img.shields.io/packagist/dt/thettler/laravel-factory-classes.svg?style=flat-square)](https://packagist.org/packages/thettler/laravel-factory-classes)
 <a href="https://twitter.com/TobiSlice" target="_blank">
   <img alt="Twitter: TobiSlice" src="https://img.shields.io/twitter/follow/TobiSlice.svg?style=social" />
 </a>
