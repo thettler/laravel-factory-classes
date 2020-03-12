@@ -2,7 +2,6 @@
 
 namespace Thettler\LaravelFactoryClasses;
 
-
 use Illuminate\Support\ServiceProvider;
 use Thettler\LaravelFactoryClasses\Commands\CreateFactoryClassCommand;
 
@@ -20,7 +19,7 @@ class FactoryClassServiceProvider extends ServiceProvider
 
             // Registering package commands.
             $this->commands([
-                 CreateFactoryClassCommand::class,
+                CreateFactoryClassCommand::class,
             ]);
         }
     }

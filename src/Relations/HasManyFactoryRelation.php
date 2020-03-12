@@ -16,8 +16,9 @@ class HasManyFactoryRelation extends FactoryRelation
     {
         $model->setRelation(
             $this->relation,
-            Collection::make($this->relatives->map(fn($relative) => $this->convertRelative($relative, 'make'))->all())
+            Collection::make($this->relatives->map(fn ($relative) => $this->convertRelative($relative, 'make'))->all())
         );
+
         return $model;
     }
 
@@ -28,7 +29,8 @@ class HasManyFactoryRelation extends FactoryRelation
     public function create(Model $model): Model
     {
         $model->{$this->relation}()
-            ->saveMany($this->relatives->map(fn($relative) => $this->convertRelative($relative, 'make')));
+            ->saveMany($this->relatives->map(fn ($relative) => $this->convertRelative($relative, 'make')));
+
         return $model;
     }
 }

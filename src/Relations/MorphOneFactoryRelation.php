@@ -25,6 +25,7 @@ class MorphOneFactoryRelation extends FactoryRelation
     public function create(Model $model): Model
     {
         $model->{$this->relation}()->save($this->convertRelative($this->relatives[0], 'make'));
+
         return $model;
     }
 }

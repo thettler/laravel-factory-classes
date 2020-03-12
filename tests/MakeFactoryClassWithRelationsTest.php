@@ -132,7 +132,7 @@ class MakeFactoryClassWithRelationsTest extends TestCase
         $belongsToFactory = $belongsToFactory->belongsToMany(
             'belongsToManyRelation',
             [$hasOneFactory],
-            fn(BelongsToManyFactoryRelation $relation) => $relation->pivot(['pivot' => 'data'])
+            fn (BelongsToManyFactoryRelation $relation) => $relation->pivot(['pivot' => 'data'])
         );
 
         $model = $belongsToFactory->make();
@@ -189,7 +189,6 @@ class MakeFactoryClassWithRelationsTest extends TestCase
     protected function getHasOneFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = HasOneModel::class;
 
             public function create(array $extra = []): HasOneModel
@@ -206,14 +205,12 @@ class MakeFactoryClassWithRelationsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 
     protected function getBelongsToFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = BelongsToModel::class;
 
             public function create(array $extra = []): BelongsToModel
@@ -230,14 +227,12 @@ class MakeFactoryClassWithRelationsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 
     protected function getMorphToFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = MorphToModel::class;
 
             public function create(array $extra = []): MorphToModel
@@ -254,7 +249,6 @@ class MakeFactoryClassWithRelationsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 }

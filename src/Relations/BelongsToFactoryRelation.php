@@ -2,7 +2,6 @@
 
 namespace Thettler\LaravelFactoryClasses\Relations;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Thettler\LaravelFactoryClasses\FactoryRelation;
 
@@ -18,6 +17,7 @@ class BelongsToFactoryRelation extends FactoryRelation
     public function make(Model $model): Model
     {
         $relative = $this->convertRelative($this->relatives[0], 'make');
+
         return $model->setRelation($this->relation, $relative);
     }
 
@@ -30,6 +30,7 @@ class BelongsToFactoryRelation extends FactoryRelation
     {
         $relative = $this->convertRelative($this->relatives[0]);
         $model->{$this->relation}()->associate($relative)->save();
+
         return $model;
     }
 }

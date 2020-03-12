@@ -1,4 +1,5 @@
 <?php
+
 return [
     'models_path' => base_path('app'),
 

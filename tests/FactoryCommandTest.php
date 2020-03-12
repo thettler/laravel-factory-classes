@@ -102,7 +102,7 @@ class FactoryCommandTest extends TestCase
     /** @test */
     public function itFailsIfFactoryAlreadyExistsWithoutForce()
     {
-        if (!file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
+        if (! file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
             mkdir(__DIR__.'/tmp', 0700);
             File::put(__DIR__.'/tmp/BelongsToModelFactory.php', 'w');
         }
@@ -114,7 +114,7 @@ class FactoryCommandTest extends TestCase
     /** @test */
     public function itSucceedsIfFactoryAlreadyExistsWithForce()
     {
-        if (!file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
+        if (! file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
             mkdir(__DIR__.'/tmp', 0700);
             File::put(__DIR__.'/tmp/BelongsToModelFactory.php', 'w');
         }
@@ -250,16 +250,16 @@ class FactoryCommandTest extends TestCase
     /** @test * */
     public function itAddsRelationsRecursiveInTheNewFactoryClass()
     {
-        if (file_exists(__DIR__."/tmp/HasOneModelFactory.php")) {
-            unlink(__DIR__."/tmp/HasOneModelFactory.php");
+        if (file_exists(__DIR__.'/tmp/HasOneModelFactory.php')) {
+            unlink(__DIR__.'/tmp/HasOneModelFactory.php');
         }
 
-        if (file_exists(__DIR__."/tmp/BelongsToModelFactory.php")) {
-            unlink(__DIR__."/tmp/BelongsToModelFactory.php");
+        if (file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
+            unlink(__DIR__.'/tmp/BelongsToModelFactory.php');
         }
 
-        if (file_exists(__DIR__."/tmp/MorphToModelFactory.php")) {
-            unlink(__DIR__."/tmp/MorphToModelFactory.php");
+        if (file_exists(__DIR__.'/tmp/MorphToModelFactory.php')) {
+            unlink(__DIR__.'/tmp/MorphToModelFactory.php');
         }
 
         $this->artisan('make:factory-class --recursive')
@@ -290,14 +290,13 @@ class FactoryCommandTest extends TestCase
             unlink(__DIR__."/tmp/{$model}Factory.php");
         }
 
-        $this->artisan('make:factory-class '. $options)
+        $this->artisan('make:factory-class '.$options)
             ->expectsQuestion('Please pick a model',
                 "<href=file:///Users/tobias/code/packages/laravel-factory-classes/tests/support/Models/{$model}.php>Thettler\LaravelFactoryClasses\Tests\support\Models\\{$model}</>")
             ->assertExitCode(0);
 
         return file_get_contents(__DIR__."/tmp/{$model}Factory.php");
     }
-
 
     protected function getPackageProviders($app)
     {

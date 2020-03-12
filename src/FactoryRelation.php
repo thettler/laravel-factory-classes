@@ -57,6 +57,7 @@ abstract class FactoryRelation
     public function relation(string $relation): self
     {
         $this->relation = $relation;
+
         return $this;
     }
 
@@ -67,6 +68,7 @@ abstract class FactoryRelation
     public function type(string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -77,6 +79,7 @@ abstract class FactoryRelation
     public function factories(FactoryClass ...$factories): self
     {
         $this->relatives = $this->relatives->merge($factories);
+
         return $this;
     }
 
@@ -87,6 +90,7 @@ abstract class FactoryRelation
     public function models(Model ...$models): self
     {
         $this->relatives = $this->relatives->merge($models);
+
         return $this;
     }
 

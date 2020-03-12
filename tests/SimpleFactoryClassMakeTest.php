@@ -21,7 +21,6 @@ class SimpleFactoryClassMakeTest extends TestCase
         $this->assertIsBool($model->publish);
     }
 
-
     /** @test */
     public function canMakeMany()
     {
@@ -37,7 +36,6 @@ class SimpleFactoryClassMakeTest extends TestCase
     protected function getValidFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = SimpleModel::class;
 
             public function create(array $extra = []): SimpleModel
@@ -55,10 +53,9 @@ class SimpleFactoryClassMakeTest extends TestCase
                 return [
                     'name' => $faker->name,
                     'publish' => $this->faker->boolean,
-                    'something' => 'From Fake'
+                    'something' => 'From Fake',
                 ];
             }
-
         });
     }
 }

@@ -3,7 +3,6 @@
 namespace Thettler\LaravelFactoryClasses\Tests;
 
 use Faker\Generator;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Orchestra\Testbench\TestCase;
 use Thettler\LaravelFactoryClasses\FactoryClass;
 use Thettler\LaravelFactoryClasses\Relations\BelongsToManyFactoryRelation;
@@ -69,7 +68,6 @@ class CreateFactoryClassWithRelationsAlreadyDefinedModelsTest extends TestCase
 
         $this->assertEquals($belongsTo->fresh(), $model->hasManyRelation[0]);
         $this->assertEquals($secondBelongsTo->fresh(), $model->hasManyRelation[1]);
-
     }
 
     /** @test */
@@ -132,7 +130,7 @@ class CreateFactoryClassWithRelationsAlreadyDefinedModelsTest extends TestCase
         $belongsToFactory = $belongsToFactory->belongsToMany(
             'belongsToManyRelation',
             [$hasOne],
-            fn(BelongsToManyFactoryRelation $relation) => $relation->pivot(['pivot' => 'data'])
+            fn (BelongsToManyFactoryRelation $relation) => $relation->pivot(['pivot' => 'data'])
         );
 
         $model = $belongsToFactory->create();
@@ -166,7 +164,7 @@ class CreateFactoryClassWithRelationsAlreadyDefinedModelsTest extends TestCase
     {
         $morphsTo = MorphToModel::create([
             'morph_to_relation_id' => 'asd',
-            'morph_to_relation_type' => 'asda'
+            'morph_to_relation_type' => 'asda',
         ]);
 
         /** @var FactoryClass $hasOneFactory */
@@ -188,7 +186,6 @@ class CreateFactoryClassWithRelationsAlreadyDefinedModelsTest extends TestCase
     protected function getHasOneFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = HasOneModel::class;
 
             public function create(array $extra = []): HasOneModel
@@ -205,14 +202,12 @@ class CreateFactoryClassWithRelationsAlreadyDefinedModelsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 
     protected function getBelongsToFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = BelongsToModel::class;
 
             public function create(array $extra = []): BelongsToModel
@@ -229,14 +224,12 @@ class CreateFactoryClassWithRelationsAlreadyDefinedModelsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 
     protected function getMorphToFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = MorphToModel::class;
 
             public function create(array $extra = []): MorphToModel
@@ -253,7 +246,6 @@ class CreateFactoryClassWithRelationsAlreadyDefinedModelsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 }

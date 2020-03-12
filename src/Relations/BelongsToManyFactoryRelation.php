@@ -4,7 +4,6 @@ namespace Thettler\LaravelFactoryClasses\Relations;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Thettler\LaravelFactoryClasses\FactoryClass;
 use Thettler\LaravelFactoryClasses\FactoryRelation;
 
 class BelongsToManyFactoryRelation extends FactoryRelation
@@ -19,6 +18,7 @@ class BelongsToManyFactoryRelation extends FactoryRelation
             ->map(function ($factory) use ($model) {
                 $relatedModel = $this->convertRelative($factory, 'make');
                 $relatedModel->pivot = $model->{$this->relation}()->newPivot($this->meta['pivot'] ?? []);
+
                 return $relatedModel;
             });
 
@@ -34,11 +34,13 @@ class BelongsToManyFactoryRelation extends FactoryRelation
         $relatedModels = $this->relatives
             ->mapWithKeys(function ($factory) {
                 $model = $this->convertRelative($factory);
+
                 return [
-                    $model->getKey() => $this->meta['pivot'] ?? []
+                    $model->getKey() => $this->meta['pivot'] ?? [],
                 ];
             });
         $model->{$this->relation}()->syncWithoutDetaching($relatedModels);
+
         return $model;
     }
 
@@ -49,6 +51,7 @@ class BelongsToManyFactoryRelation extends FactoryRelation
     public function pivot(array $pivot)
     {
         $this->meta['pivot'] = $pivot;
+
         return $this;
     }
 }
