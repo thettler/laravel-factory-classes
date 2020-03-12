@@ -26,9 +26,8 @@ class InvalidFactoryClassTest extends TestCase
     protected function getInValidWithoutModelFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
-                /* IS MISSING */
-                //protected string $model = SimpleModel::class;
+            /* IS MISSING */
+            //protected string $model = SimpleModel::class;
 
             public function create(array $extra = [])
             {
@@ -42,13 +41,12 @@ class InvalidFactoryClassTest extends TestCase
             {
                 return [];
             }
-
         });
     }
+
     protected function getInValidWithNotExistingModelFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = 'Some/Not/Existing/Model';
 
             public function create(array $extra = [])
@@ -63,7 +61,6 @@ class InvalidFactoryClassTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 }

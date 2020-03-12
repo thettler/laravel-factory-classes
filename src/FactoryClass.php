@@ -3,16 +3,16 @@
 namespace Thettler\LaravelFactoryClasses;
 
 use Faker\Generator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Thettler\LaravelFactoryClasses\Exceptions\FactoryException;
-use Thettler\LaravelFactoryClasses\Relations\HasOneFactoryRelation;
-use Thettler\LaravelFactoryClasses\Relations\MorphToFactoryRelation;
-use Thettler\LaravelFactoryClasses\Relations\HasManyFactoryRelation;
-use Thettler\LaravelFactoryClasses\Relations\MorphOneFactoryRelation;
 use Thettler\LaravelFactoryClasses\Relations\BelongsToFactoryRelation;
 use Thettler\LaravelFactoryClasses\Relations\BelongsToManyFactoryRelation;
+use Thettler\LaravelFactoryClasses\Relations\HasManyFactoryRelation;
+use Thettler\LaravelFactoryClasses\Relations\HasOneFactoryRelation;
+use Thettler\LaravelFactoryClasses\Relations\MorphOneFactoryRelation;
+use Thettler\LaravelFactoryClasses\Relations\MorphToFactoryRelation;
 
 abstract class FactoryClass
 {
@@ -23,7 +23,7 @@ abstract class FactoryClass
     protected bool $withOutFakeData = false;
 
     /**
-     * This Method should be used to create and save a model
+     * This Method should be used to create and save a model.
      *
      * @param  array  $extra
      * @return mixed
@@ -31,7 +31,7 @@ abstract class FactoryClass
     abstract public function create(array $extra = []);
 
     /**
-     * This Method should be used to only create a Model
+     * This Method should be used to only create a Model.
      *
      * @param  array  $extra
      * @return mixed
@@ -39,7 +39,7 @@ abstract class FactoryClass
     abstract public function make(array $extra = []);
 
     /**
-     * Generate Fake data that gets merged with into the Model
+     * Generate Fake data that gets merged with into the Model.
      *
      * @param  Generator  $faker
      * @return array
@@ -57,7 +57,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Create new FactoryClass instance
+     * Create new FactoryClass instance.
      *
      * @return static
      */
@@ -67,7 +67,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Create more than one Model
+     * Create more than one Model.
      *
      * @param  int  $times
      * @param  array  $extra
@@ -75,11 +75,11 @@ abstract class FactoryClass
      */
     public function createMany(int $times, array $extra = []): Collection
     {
-        return $this->resolveMany($times, $extra, fn(array $extra) => $this->create($extra));
+        return $this->resolveMany($times, $extra, fn (array $extra) => $this->create($extra));
     }
 
     /**
-     * Make more than one Model
+     * Make more than one Model.
      *
      * @param  int  $times
      * @param  array  $extra
@@ -87,11 +87,11 @@ abstract class FactoryClass
      */
     public function makeMany(int $times, array $extra = []): Collection
     {
-        return $this->resolveMany($times, $extra, fn(array $extra) => $this->make($extra));
+        return $this->resolveMany($times, $extra, fn (array $extra) => $this->make($extra));
     }
 
     /**
-     * Set the data that gets used to create the Model
+     * Set the data that gets used to create the Model.
      *
      * @param  array  $data
      * @return $this
@@ -100,11 +100,12 @@ abstract class FactoryClass
     {
         $clone = $this->clone();
         $clone->data = $data;
+
         return $clone;
     }
 
     /**
-     * Merge data into the existing data array
+     * Merge data into the existing data array.
      *
      * @param  string  $key
      * @param $value
@@ -114,6 +115,7 @@ abstract class FactoryClass
     {
         $clone = $this->clone();
         $clone->data[$key] = $value;
+
         return $clone;
     }
 
@@ -126,11 +128,12 @@ abstract class FactoryClass
     public function withoutFakeData(bool $withoutFakeData = true): self
     {
         $this->withOutFakeData = $withoutFakeData;
+
         return $this;
     }
 
     /**
-     * HasOne Relation
+     * HasOne Relation.
      *
      * @param  string  $relation
      * @param  FactoryClass|Model  $relative
@@ -143,7 +146,7 @@ abstract class FactoryClass
     }
 
     /**
-     * HasMany Relation
+     * HasMany Relation.
      *
      * @param  string  $relation
      * @param  FactoryClass[]|Model[]  $relatives
@@ -156,7 +159,7 @@ abstract class FactoryClass
     }
 
     /**
-     * BelongsTo Relation
+     * BelongsTo Relation.
      *
      * @param  string  $relation
      * @param  FactoryClass|Model  $relative
@@ -169,7 +172,7 @@ abstract class FactoryClass
     }
 
     /**
-     * BelongsToMany Relation
+     * BelongsToMany Relation.
      *
      * @param  string  $relation
      * @param  FactoryClass[]|Model[]  $relatives
@@ -182,7 +185,7 @@ abstract class FactoryClass
     }
 
     /**
-     * MorphTo Relation
+     * MorphTo Relation.
      *
      * @param  string  $relation
      * @param  FactoryClass|Model  $relative
@@ -195,7 +198,7 @@ abstract class FactoryClass
     }
 
     /**
-     * MorphOne Relation
+     * MorphOne Relation.
      *
      * @param  string  $relation
      * @param  FactoryClass|Model  $relative
@@ -208,7 +211,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Add a custom Relation
+     * Add a custom Relation.
      *
      * @param  FactoryRelation  $relation
      * @param  callable|null  $configure
@@ -217,13 +220,14 @@ abstract class FactoryClass
     public function with(FactoryRelation $relation, ?callable $configure = null): self
     {
         $clone = $this->clone();
-        $configure = $configure ?? fn(FactoryRelation $r) => $r;
+        $configure = $configure ?? fn (FactoryRelation $r) => $r;
         $clone->relations->push($configure($relation));
+
         return $clone;
     }
 
     /**
-     * Clones it self
+     * Clones it self.
      *
      * @return $this
      */
@@ -233,7 +237,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Get Data
+     * Get Data.
      *
      * @return array
      */
@@ -243,7 +247,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Get Model reference
+     * Get Model reference.
      *
      * @return string
      */
@@ -253,7 +257,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Resolve the Factory to create one Model
+     * Resolve the Factory to create one Model.
      *
      * @param  array  $extra
      * @return string
@@ -278,7 +282,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Resolve the Factory to create more than one Model
+     * Resolve the Factory to create more than one Model.
      *
      * @param  int  $times
      * @param  array  $extra
@@ -295,7 +299,7 @@ abstract class FactoryClass
                         return $action($extra);
                     }
 
-                    if (!array_key_exists($index, $extra)) {
+                    if (! array_key_exists($index, $extra)) {
                         return $action([]);
                     }
 
@@ -305,7 +309,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Create and Save Model to the Database
+     * Create and Save Model to the Database.
      *
      * @param  array  $extra
      * @return mixed
@@ -329,7 +333,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Create and dont save Model to the Database
+     * Create and dont save Model to the Database.
      *
      * @param  array  $extra
      * @return mixed
@@ -350,7 +354,7 @@ abstract class FactoryClass
     }
 
     /**
-     * Verify that a Model is given and valid
+     * Verify that a Model is given and valid.
      *
      * @return bool
      * @throws FactoryException
@@ -361,34 +365,33 @@ abstract class FactoryClass
             FactoryException::message(get_class($this).'::$model must be defined!');
         }
 
-        if (!class_exists($this->model)) {
+        if (! class_exists($this->model)) {
             FactoryException::message($this->model.'does not exist!');
         }
 
         return true;
     }
 
-
     /**
-     * Get all Relations that need to be run before the Model is saved
+     * Get all Relations that need to be run before the Model is saved.
      *
      * @return Collection
      */
     protected function getUpFrontRelations(): Collection
     {
         return $this->relations
-            ->filter(fn(FactoryRelation $relation) => $relation->getType() === FactoryRelation::BEFORE_TYPE);
+            ->filter(fn (FactoryRelation $relation) => $relation->getType() === FactoryRelation::BEFORE_TYPE);
     }
 
     /**
-     * Get all Relations that need to be run after Model is saved
+     * Get all Relations that need to be run after Model is saved.
      *
      * @return Collection
      */
     protected function getAfterRelations(): Collection
     {
         return $this->relations
-            ->filter(fn(FactoryRelation $relation) => $relation->getType() === FactoryRelation::AFTER_TYPE);
+            ->filter(fn (FactoryRelation $relation) => $relation->getType() === FactoryRelation::AFTER_TYPE);
     }
 
     public function __clone()

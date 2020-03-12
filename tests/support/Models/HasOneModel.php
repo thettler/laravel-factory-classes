@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class HasOneModel extends Model
 {
-
     /**
      * Get the phone record associated with the user.
      */

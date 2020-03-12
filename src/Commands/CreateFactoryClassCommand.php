@@ -57,7 +57,6 @@ class CreateFactoryClassCommand extends GeneratorCommand
 
     /**
      * Execute the console command.
-     *
      */
     public function handle()
     {
@@ -78,8 +77,9 @@ class CreateFactoryClassCommand extends GeneratorCommand
 
         $classPath = $this->factoriesPath.'/'.$className.'Factory.php';
 
-        if (!$this->shouldCreateFactory($classPath)) {
+        if (! $this->shouldCreateFactory($classPath)) {
             $this->error($this->type.' already exists!');
+
             return false;
         }
 
@@ -93,6 +93,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
         $this->files->put($classPath, $this->addRelations($this->files->get($classPath), $fullClassName));
 
         $this->info($this->factoriesNamespace.'\\'.$className.$this->type.' created successfully.');
+
         return '\\'.$this->factoriesNamespace.'\\'.$className.$this->type;
     }
 
@@ -119,6 +120,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
 
         if ($this->argument('model')) {
             $class_finder = new ClassFinder(new Filesystem());
+
             return $class_finder->getFullyQualifiedClassNameFromFile($this->modelsPath.'/'.$this->argument('model').'.php');
         }
 
@@ -130,7 +132,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
         // First we will check to see if the class already exists. If it does, we don't want
         // to create the class and overwrite the user's code. So, we will bail out so the
         // code is untouched. Otherwise, we will continue generating this class' files.
-        if ((!$this->hasOption('force') || !$this->option('force')) && $this->files->exists($classPath)) {
+        if ((! $this->hasOption('force') || ! $this->option('force')) && $this->files->exists($classPath)) {
             return false;
         }
 
@@ -148,6 +150,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
     protected function replaceClass($stub, $name)
     {
         $stub = parent::replaceClass($stub, $name);
+
         return str_replace(['DummyFullModelClass', 'DummyModelClass', 'DummyFactory'],
             [$name, class_basename($name), class_basename($name).'Factory'], $stub);
     }
@@ -160,6 +163,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
                 if ($returnType = $method->getReturnType()) {
                     return in_array($returnType->getName(), $this->generateRelations);
                 }
+
                 return false;
             });
 
@@ -170,7 +174,6 @@ class CreateFactoryClassCommand extends GeneratorCommand
         }
 
         $relationMethods = $relationMethods->map(function (\ReflectionMethod $method) use ($fullClassName) {
-
             $relationStub = $this->getRelationStub($method);
             $relationType = class_basename($method->getReturnType()->getName());
 
@@ -202,12 +205,12 @@ class CreateFactoryClassCommand extends GeneratorCommand
 
     protected function makeRelatedFactory(Model $relatedModel)
     {
-        if (!$this->hasOption('recursive') || !$this->option('recursive')) {
-            return '\\' . $this->factoriesNamespace.'\\'.class_basename($relatedModel).'Factory';
+        if (! $this->hasOption('recursive') || ! $this->option('recursive')) {
+            return '\\'.$this->factoriesNamespace.'\\'.class_basename($relatedModel).'Factory';
         }
 
         if ($this->factoryExist(class_basename($relatedModel))) {
-            return '\\'. $this->factoriesNamespace.'\\'.class_basename($relatedModel).'Factory';
+            return '\\'.$this->factoriesNamespace.'\\'.class_basename($relatedModel).'Factory';
         }
 
         return $this->makeFactory($relatedModel);
@@ -217,7 +220,6 @@ class CreateFactoryClassCommand extends GeneratorCommand
     {
         return $this->files->exists($this->factoriesPath.'/'.$model.'Factory.php');
     }
-
 
     protected function getRelationStub(\ReflectionMethod $method): string
     {
