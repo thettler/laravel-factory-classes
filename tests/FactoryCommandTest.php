@@ -53,6 +53,7 @@ class FactoryCommandTest extends TestCase
      */
     public function itCreatesFactoryForChosenModel()
     {
+        dd(File::files(__DIR__.'/support/Models'));
         $this->artisan('make:factory-class')
             ->expectsQuestion(
                 'Please pick a model',
