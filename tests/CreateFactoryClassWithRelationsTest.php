@@ -84,9 +84,7 @@ class CreateFactoryClassWithRelationsTest extends TestCase
 
         $this->assertCount(1, $hasOneModel->hasManyRelation);
         $this->assertCount(2, $hasOneSecondModel->hasManyRelation);
-
     }
-
 
     /** @test */
     public function canCreateAModelWithAGivenBelongsToRelation()
@@ -151,7 +149,7 @@ class CreateFactoryClassWithRelationsTest extends TestCase
         $belongsToFactory = $belongsToFactory->belongsToMany(
             'belongsToManyRelation',
             [$hasOneFactory],
-            fn(BelongsToManyFactoryRelation $relation) => $relation->pivot(['pivot' => 'data'])
+            fn (BelongsToManyFactoryRelation $relation) => $relation->pivot(['pivot' => 'data'])
         );
 
         $model = $belongsToFactory->create();
@@ -208,7 +206,6 @@ class CreateFactoryClassWithRelationsTest extends TestCase
     protected function getHasOneFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = HasOneModel::class;
 
             public function create(array $extra = []): HasOneModel
@@ -225,14 +222,12 @@ class CreateFactoryClassWithRelationsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 
     protected function getBelongsToFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = BelongsToModel::class;
 
             public function create(array $extra = []): BelongsToModel
@@ -249,14 +244,12 @@ class CreateFactoryClassWithRelationsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 
     protected function getMorphToFactory(): string
     {
         return get_class(new class extends FactoryClass {
-
             protected string $model = MorphToModel::class;
 
             public function create(array $extra = []): MorphToModel
@@ -273,7 +266,6 @@ class CreateFactoryClassWithRelationsTest extends TestCase
             {
                 return [];
             }
-
         });
     }
 }
