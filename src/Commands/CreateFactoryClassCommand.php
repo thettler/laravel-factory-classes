@@ -92,7 +92,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
         // stub files so that it gets the correctly formatted namespace and class name.
         $this->makeDirectory($classPath);
 
-        $this->files->put($classPath, $this->sortImports($this->buildClass($fullClassName)));
+        $this->files->put($classPath, $this->buildClass($fullClassName));
 
         $this->files->put($classPath, $this->addRelations($this->files->get($classPath), $fullClassName));
 
