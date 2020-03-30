@@ -2,8 +2,6 @@
 
 namespace Thettler\LaravelFactoryClasses\Commands;
 
-use Christophrumpel\LaravelCommandFilePicker\ClassFinder;
-use Christophrumpel\LaravelCommandFilePicker\Traits\PicksClasses;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class CreateFactoryClassCommand extends GeneratorCommand
 {
-    use PicksClasses;
 
     /**
      * The name and signature of the console command.
@@ -23,7 +21,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
      * @var string
      */
     protected $signature = 'make:factory-class
-                            {model?}
+                            {model}
                             {--factories_path=}
                             {--models_path=}
                             {--factories_namespace=}
@@ -71,6 +69,12 @@ class CreateFactoryClassCommand extends GeneratorCommand
     {
         $fullClassName = $this->fetchModel($model);
 
+//        dd($fullClassName);
+
+
+//        dd($this->());
+//        $fullClassName = str_replace('/', '\\', $fullClassName);
+
         $className = class_basename($fullClassName);
 
         $this->info("Thank you! $className it is.");
@@ -82,7 +86,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
 
             return false;
         }
-
+//dd($fullClassName);
         // Next, we will generate the path to the location where this class' file should get
         // written. Then, we will build the class and make the proper replacements on the
         // stub files so that it gets the correctly formatted namespace and class name.
@@ -118,13 +122,7 @@ class CreateFactoryClassCommand extends GeneratorCommand
             return get_class($model);
         }
 
-        if ($this->argument('model')) {
-            $class_finder = new ClassFinder(new Filesystem());
-
-            return $class_finder->getFullyQualifiedClassNameFromFile($this->modelsPath.'/'.$this->argument('model').'.php');
-        }
-
-        return $this->askToPickModels($this->modelsPath);
+        return $this->qualifyClass($this->argument('model'));
     }
 
     protected function shouldCreateFactory(string $classPath)
@@ -247,5 +245,20 @@ class CreateFactoryClassCommand extends GeneratorCommand
         ], $stub);
 
         return $this;
+    }
+
+    /**
+     * Parse the class name and format according to the root namespace.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function qualifyClass($name)
+    {
+        $name = ltrim($name, '\\/');
+
+        $name = str_replace('/', '\\', $name);
+
+        return $name;
     }
 }

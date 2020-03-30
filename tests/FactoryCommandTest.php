@@ -40,12 +40,12 @@ class FactoryCommandTest extends TestCase
      */
     public function itFailsIfNoModelsFound()
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(\ReflectionException::class);
 
         // Set to a path with no models given
         Config::set('factory-classes.models_path', __DIR__.'/');
 
-        $this->artisan('make:factory-class');
+        $this->artisan('make:factory-class lala');
     }
 
     /**
@@ -53,11 +53,7 @@ class FactoryCommandTest extends TestCase
      */
     public function itCreatesFactoryForChosenModel()
     {
-        $this->artisan('make:factory-class')
-            ->expectsQuestion(
-                'Please pick a model',
-                '<href=file://'.__DIR__.'/support/Models/SimpleModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\SimpleModel</>'
-            )
+        $this->artisan("make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/SimpleModel")
             ->assertExitCode(0);
 
         $this->assertTrue(File::exists(__DIR__.'/tmp/SimpleModelFactory.php'));
@@ -66,9 +62,7 @@ class FactoryCommandTest extends TestCase
     /** @test * */
     public function itReplacesTheTheDummyCodeInTheNewFactoryClass()
     {
-        $this->artisan('make:factory-class')
-            ->expectsQuestion('Please pick a model',
-                '<href=file://'.__DIR__.'/support/Models/SimpleModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\SimpleModel</>')
+        $this->artisan('make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/SimpleModel')
             ->assertExitCode(0);
 
         $generatedFactoryContent = file_get_contents(__DIR__.'/tmp/SimpleModelFactory.php');
@@ -93,7 +87,7 @@ class FactoryCommandTest extends TestCase
 
         $this->assertFalse(File::exists(__DIR__.'/tmp/BelongsToModelFactory.php'));
 
-        $this->artisan('make:factory-class BelongsToModel')
+        $this->artisan('make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel')
             ->assertExitCode(0);
 
         $this->assertTrue(File::exists(__DIR__.'/tmp/BelongsToModelFactory.php'));
@@ -102,31 +96,32 @@ class FactoryCommandTest extends TestCase
     /** @test */
     public function itFailsIfFactoryAlreadyExistsWithoutForce()
     {
-        if (! file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
+        if (!file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
             mkdir(__DIR__.'/tmp', 0700);
             File::put(__DIR__.'/tmp/BelongsToModelFactory.php', 'w');
         }
 
-        $this->artisan('make:factory-class BelongsToModel')
+        $this->artisan('make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel')
             ->expectsOutput('Factory already exists!');
     }
 
     /** @test */
     public function itSucceedsIfFactoryAlreadyExistsWithForce()
     {
-        if (! file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
+        if (!file_exists(__DIR__.'/tmp/BelongsToModelFactory.php')) {
             mkdir(__DIR__.'/tmp', 0700);
             File::put(__DIR__.'/tmp/BelongsToModelFactory.php', 'w');
         }
 
-        $this->artisan('make:factory-class BelongsToModel --force')
+        $this->artisan('make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel --force')
             ->expectsOutput('Thettler\LaravelFactoryClasses\Tests\Factories\BelongsToModelFactory created successfully.');
     }
 
     /** @test * */
     public function itLetsYouDisableAutoRelation()
     {
-        $generatedFactoryContent = $this->triggerFactoryCreation(HasOneModel::class, '--without-relations');
+        $generatedFactoryContent = $this->triggerFactoryCreation('Thettler/LaravelFactoryClasses/Tests/support/Models/HasOneModel',
+            '--without-relations');
 
         $this->assertFalse(
             Str::containsAll($generatedFactoryContent, [
@@ -149,7 +144,7 @@ class FactoryCommandTest extends TestCase
 
         $this->assertFalse(File::exists(__DIR__.'/tmp/BelongsToModelFactory.php'));
 
-        $this->artisan('make:factory-class BelongsToModel
+        $this->artisan('make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel
                 --models_path='.__DIR__.'/support/Models
                 --factories_path='.__DIR__.'/tmp
                 --factories_namespace=Thettler\LaravelFactoryClasses\Tests\Factories
@@ -172,7 +167,7 @@ class FactoryCommandTest extends TestCase
 
         $this->assertFalse(File::exists(__DIR__.'/tmp/BelongsToModelFactory.php'));
 
-        $this->artisan('make:factory-class BelongsToModel
+        $this->artisan('make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel
                 --models_path='.__DIR__.'/support/Models/Models
                 --factories_path='.__DIR__.'/tmp
                 --factories_namespace=Thettler\LaravelFactoryClasses\Tests\Factories
@@ -185,7 +180,7 @@ class FactoryCommandTest extends TestCase
     /** @test * */
     public function itAddsHasOneRelationsInTheNewFactoryClass()
     {
-        $generatedFactoryContent = $this->triggerFactoryCreation(HasOneModel::class);
+        $generatedFactoryContent = $this->triggerFactoryCreation('Thettler/LaravelFactoryClasses/Tests/support/Models/HasOneModel');
 
         $this->assertTrue(
             Str::containsAll($generatedFactoryContent, [
@@ -198,7 +193,7 @@ class FactoryCommandTest extends TestCase
     /** @test * */
     public function itAddsMorphOneRelationsInTheNewFactoryClass()
     {
-        $generatedFactoryContent = $this->triggerFactoryCreation(HasOneModel::class);
+        $generatedFactoryContent = $this->triggerFactoryCreation('Thettler/LaravelFactoryClasses/Tests/support/Models/HasOneModel');
 
         $this->assertTrue(
             Str::containsAll($generatedFactoryContent, [
@@ -211,7 +206,7 @@ class FactoryCommandTest extends TestCase
     /** @test * */
     public function itAddsBelongsToRelationsInTheNewFactoryClass()
     {
-        $generatedFactoryContent = $this->triggerFactoryCreation(BelongsToModel::class);
+        $generatedFactoryContent = $this->triggerFactoryCreation('Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel');
 
         $this->assertTrue(
             Str::containsAll($generatedFactoryContent, [
@@ -224,7 +219,7 @@ class FactoryCommandTest extends TestCase
     /** @test * */
     public function itAddsHasManyRelationsInTheNewFactoryClass()
     {
-        $generatedFactoryContent = $this->triggerFactoryCreation(HasOneModel::class);
+        $generatedFactoryContent = $this->triggerFactoryCreation('Thettler/LaravelFactoryClasses/Tests/support/Models/HasOneModel');
 
         $this->assertTrue(
             Str::containsAll($generatedFactoryContent, [
@@ -237,7 +232,7 @@ class FactoryCommandTest extends TestCase
     /** @test * */
     public function itAddsBelongsToManyRelationsInTheNewFactoryClass()
     {
-        $generatedFactoryContent = $this->triggerFactoryCreation(BelongsToModel::class);
+        $generatedFactoryContent = $this->triggerFactoryCreation('Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel');
 
         $this->assertTrue(
             Str::containsAll($generatedFactoryContent, [
@@ -262,9 +257,7 @@ class FactoryCommandTest extends TestCase
             unlink(__DIR__.'/tmp/MorphToModelFactory.php');
         }
 
-        $this->artisan('make:factory-class --recursive')
-            ->expectsQuestion('Please pick a model',
-                '<href=file://'.__DIR__.'/support/Models/BelongsToModel.php>Thettler\LaravelFactoryClasses\Tests\support\Models\BelongsToModel</>')
+        $this->artisan('make:factory-class Thettler/LaravelFactoryClasses/Tests/support/Models/BelongsToModel --recursive')
             ->assertExitCode(0);
 
         $generatedFactoryContent = file_get_contents(__DIR__.'/tmp/BelongsToModelFactory.php');
@@ -285,17 +278,16 @@ class FactoryCommandTest extends TestCase
 
     protected function triggerFactoryCreation(string $model, string $options = '')
     {
-        $model = class_basename($model);
-        if (file_exists(__DIR__."/tmp/{$model}Factory.php")) {
-            unlink(__DIR__."/tmp/{$model}Factory.php");
+        $modelName = explode('/', $model);
+        $modelName = $modelName[count($modelName)-1];
+        if (file_exists(__DIR__."/tmp/{$modelName}Factory.php")) {
+            unlink(__DIR__."/tmp/{$modelName}Factory.php");
         }
 
-        $this->artisan('make:factory-class '.$options)
-            ->expectsQuestion('Please pick a model',
-                '<href=file://'.__DIR__."/support/Models/{$model}.php>Thettler\LaravelFactoryClasses\Tests\support\Models\\{$model}</>")
+        $this->artisan('make:factory-class '.$model.' '.$options)
             ->assertExitCode(0);
 
-        return file_get_contents(__DIR__."/tmp/{$model}Factory.php");
+        return file_get_contents(__DIR__."/tmp/{$modelName}Factory.php");
     }
 
     protected function getPackageProviders($app)

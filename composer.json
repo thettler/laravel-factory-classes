@@ -17,9 +17,8 @@
   ],
   "require": {
     "php": "^7.4",
-    "illuminate/support": "^6.0|^7.0",
-    "laravel/framework": "^6.0|^7.0",
-    "christophrumpel/laravel-command-file-picker": "^0.0.7",
+    "illuminate/support": "^5.8|^6.0|^7.0",
+    "laravel/framework": "^5.8|^6.0|^7.0",
     "fzaninotto/faker": "^1.4"
   },
   "require-dev": {
