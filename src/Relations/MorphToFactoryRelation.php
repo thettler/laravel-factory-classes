@@ -26,7 +26,7 @@ class MorphToFactoryRelation extends FactoryRelation
      */
     public function create(Model $model): Model
     {
-        $model->{$this->relation}()->associate($this->convertRelative($this->relatives[0]))->save();
+        $model->{$this->relation}()->associate($this->convertRelative($this->relatives[0]));
 
         return $model;
     }

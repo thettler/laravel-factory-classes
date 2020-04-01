@@ -29,7 +29,7 @@ class BelongsToFactoryRelation extends FactoryRelation
     public function create(Model $model): Model
     {
         $relative = $this->convertRelative($this->relatives[0]);
-        $model->{$this->relation}()->associate($relative)->save();
+        $model->{$this->relation}()->associate($relative);
 
         return $model;
     }
