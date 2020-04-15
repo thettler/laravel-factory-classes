@@ -8,7 +8,7 @@ use DummyFullModelClass;
 class DummyFactory extends FactoryClass
 {
 
-    protected string $model = DummyModelClass::class;
+    protected $model = DummyModelClass::class;
 
     public function create(array $extra = []): DummyModelClass
     {

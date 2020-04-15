@@ -84,6 +84,17 @@ abstract class FactoryRelation
     }
 
     /**
+     * @param  string  $key
+     * @param $value
+     * @return $this
+     */
+    public function meta(string $key, $value): self
+    {
+        $this->meta[$key] = $value;
+        return $this;
+    }
+
+    /**
      * @param  Model  ...$models
      * @return $this
      */

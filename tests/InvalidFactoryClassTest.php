@@ -47,7 +47,7 @@ class InvalidFactoryClassTest extends TestCase
     protected function getInValidWithNotExistingModelFactory(): string
     {
         return get_class(new class extends FactoryClass {
-            protected string $model = 'Some/Not/Existing/Model';
+            protected $model = 'Some/Not/Existing/Model';
 
             public function create(array $extra = [])
             {

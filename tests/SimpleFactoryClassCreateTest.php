@@ -157,7 +157,7 @@ class SimpleFactoryClassCreateTest extends TestCase
     protected function getValidFactory(): string
     {
         return get_class(new class extends FactoryClass {
-            protected string $model = SimpleModel::class;
+            protected $model = SimpleModel::class;
 
             public function create(array $extra = []): SimpleModel
             {

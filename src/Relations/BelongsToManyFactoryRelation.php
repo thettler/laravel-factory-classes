@@ -48,10 +48,8 @@ class BelongsToManyFactoryRelation extends FactoryRelation
      * @param  array  $pivot
      * @return $this
      */
-    public function pivot(array $pivot)
+    public function pivot(array $pivot): self
     {
-        $this->meta['pivot'] = $pivot;
-
-        return $this;
+        return $this->meta('pivot', $pivot);
     }
 }

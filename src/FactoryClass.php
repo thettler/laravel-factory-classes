@@ -16,11 +16,30 @@ use Thettler\LaravelFactoryClasses\Relations\MorphToFactoryRelation;
 
 abstract class FactoryClass
 {
-    protected Generator $faker;
-    protected array $data = [];
-    protected string $model = '';
-    protected Collection $relations;
-    protected bool $withOutFakeData = false;
+    /**
+     * @var Generator
+     */
+    protected $faker;
+
+    /**
+     * @var array
+     */
+    protected $data = [];
+
+    /**
+     * @var string
+     */
+    protected $model = '';
+
+    /**
+     * @var Collection
+     */
+    protected $relations;
+
+    /**
+     * @var bool
+     */
+    protected $withOutFakeData = false;
 
     /**
      * This Method should be used to create and save a model.
@@ -75,7 +94,7 @@ abstract class FactoryClass
      */
     public function createMany(int $times, array $extra = []): Collection
     {
-        return $this->resolveMany($times, $extra, fn (array $extra) => $this->create($extra));
+        return $this->resolveMany($times, $extra, fn(array $extra) => $this->create($extra));
     }
 
     /**
@@ -87,7 +106,7 @@ abstract class FactoryClass
      */
     public function makeMany(int $times, array $extra = []): Collection
     {
-        return $this->resolveMany($times, $extra, fn (array $extra) => $this->make($extra));
+        return $this->resolveMany($times, $extra, fn(array $extra) => $this->make($extra));
     }
 
     /**
@@ -220,7 +239,7 @@ abstract class FactoryClass
     public function with(FactoryRelation $relation, ?callable $configure = null): self
     {
         $clone = $this->clone();
-        $configure = $configure ?? fn (FactoryRelation $r) => $r;
+        $configure = $configure ?? fn(FactoryRelation $r) => $r;
         $clone->relations->push($configure($relation));
 
         return $clone;
@@ -254,6 +273,15 @@ abstract class FactoryClass
     public function getModel(): string
     {
         return $this->model;
+    }
+
+    public function newOrUse(FactoryClass $factory, $useThisIfNotEmpty = null)
+    {
+        if (is_array($useThisIfNotEmpty)) {
+            return empty($useThisIfNotEmpty) ? $factory : $useThisIfNotEmpty;
+        }
+
+        return $useThisIfNotEmpty ?? $factory;
     }
 
     /**
@@ -299,7 +327,7 @@ abstract class FactoryClass
                         return $action($extra);
                     }
 
-                    if (! array_key_exists($index, $extra)) {
+                    if (!array_key_exists($index, $extra)) {
                         return $action([]);
                     }
 
@@ -318,16 +346,11 @@ abstract class FactoryClass
     {
         $model = $this->resolveFactory($extra);
 
-        $this->getUpFrontRelations()
-            ->each
-            ->create($model);
+        $model = $this->execCreateBeforeRelations($model);
 
-        $model->save();
-        $model = $model->fresh();
+        $model = $this->saveModel($model);
 
-        $this->getAfterRelations()
-            ->each
-            ->create($model);
+        $model = $this->execCreateAfterRelations($model);
 
         return $model;
     }
@@ -342,14 +365,48 @@ abstract class FactoryClass
     {
         $model = $this->resolveFactory($extra);
 
+        $model = $this->execMakeBeforeRelations($model);
+
+        $model = $this->execMakeAfterRelations($model);
+
+        return $model;
+    }
+
+    protected function saveModel($model)
+    {
+        $model->save();
+        return $model->fresh();
+    }
+
+    protected function execCreateBeforeRelations($model)
+    {
+        $this->getUpFrontRelations()
+            ->each
+            ->create($model);
+        return $model;
+    }
+
+    protected function execCreateAfterRelations($model)
+    {
+        $this->getAfterRelations()
+            ->each
+            ->create($model);
+        return $model;
+    }
+
+    protected function execMakeBeforeRelations($model)
+    {
         $this->getUpFrontRelations()
             ->each
             ->make($model);
+        return $model;
+    }
 
+    protected function execMakeAfterRelations($model)
+    {
         $this->getAfterRelations()
             ->each
             ->make($model);
-
         return $model;
     }
 
@@ -365,7 +422,7 @@ abstract class FactoryClass
             FactoryException::message(get_class($this).'::$model must be defined!');
         }
 
-        if (! class_exists($this->model)) {
+        if (!class_exists($this->model)) {
             FactoryException::message($this->model.'does not exist!');
         }
 
@@ -380,7 +437,7 @@ abstract class FactoryClass
     protected function getUpFrontRelations(): Collection
     {
         return $this->relations
-            ->filter(fn (FactoryRelation $relation) => $relation->getType() === FactoryRelation::BEFORE_TYPE);
+            ->filter(fn(FactoryRelation $relation) => $relation->getType() === FactoryRelation::BEFORE_TYPE);
     }
 
     /**
@@ -391,7 +448,7 @@ abstract class FactoryClass
     protected function getAfterRelations(): Collection
     {
         return $this->relations
-            ->filter(fn (FactoryRelation $relation) => $relation->getType() === FactoryRelation::AFTER_TYPE);
+            ->filter(fn(FactoryRelation $relation) => $relation->getType() === FactoryRelation::AFTER_TYPE);
     }
 
     public function __clone()
